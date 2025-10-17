@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CUSTOMIZE HERE: Change to your name and title -->
+    <title>Anjali Sharma | MBBS Student & Medical Educator</title>
+    
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            --bg-dark: #020c1b;
+            --bg-light-dark: #03142b;
+            --text-lightest: #e6f1ff;
+            --text-light: #c2d4ee;
+            --text-dark: #8892b0;
+            --accent-color: #57cbff;
+            --font-main: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-main); background-color: var(--bg-dark);
+            color: var(--text-light); overflow-x: hidden; cursor: none;
+        }
+
+        /* --- Custom Cursor & Spotlight --- */
+        .cursor-dot, .cursor-outline {
+            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 9999; pointer-events: none;
+            transition: transform 0.2s ease-out, opacity 0.2s ease, width 0.3s ease, height 0.3s ease;
+        }
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--accent-color); }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--accent-color); opacity: 0.5; }
+        .cursor-grow { transform: translate(-50%, -50%) scale(1.5); border-color: white; }
+
+        .spotlight {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+            background: radial-gradient(circle at var(--x) var(--y), rgba(87, 203, 255, 0.08), transparent 25%);
+        }
+
+        /* --- Main Styles --- */
+        .container { max-width: 1100px; margin: auto; padding: 0 2rem; }
+        section { padding: 8rem 0; }
+        
+        h2 { font-size: 2.8rem; color: var(--text-lightest); margin-bottom: 3rem; text-align: center; }
+        
+        .btn {
+            display: inline-block; background: transparent; color: var(--accent-color);
+            padding: 1rem 2.5rem; border: 1px solid var(--accent-color); border-radius: 5px;
+            font-size: 1rem; font-weight: 600; text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { background-color: rgba(87, 203, 255, 0.1); transform: translateY(-5px); }
+        
+        /* --- Navigation Bar --- */
+        .navbar {
+            position: fixed; top: -100px; width: 100%; z-index: 1000;
+            background: rgba(2, 12, 27, 0.85); backdrop-filter: blur(10px);
+            padding: 1.5rem 0; transition: transform 0.4s ease-out;
+            border-bottom: 1px solid var(--bg-light-dark);
+        }
+        .navbar.scrolled { transform: translateY(100px); }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .navbar .logo { font-size: 1.8rem; font-weight: 800; color: var(--accent-color); text-decoration: none; }
+        .navbar .nav-links { list-style: none; display: flex; align-items: center; }
+        .navbar .nav-links li { margin-left: 1.8rem; }
+        .navbar .nav-links a {
+            color: var(--text-light); font-weight: 600; text-decoration: none;
+            transition: color 0.3s ease; position: relative; padding-bottom: 5px;
+        }
+        .navbar .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--accent-color); transition: width 0.3s ease;
+        }
+        .navbar .nav-links a.active::after, .navbar .nav-links a:hover::after { width: 100%; }
+        .navbar .nav-links a.active, .navbar .nav-links a:hover { color: var(--accent-color); }
+
+        /* --- Hero Section --- */
+        #home { 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+        }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+        .hero-text .intro { color: var(--accent-color); font-size: 1.1rem; margin-bottom: 1rem; }
+        .hero-text h1 { font-size: 4rem; font-weight: 800; color: var(--text-lightest); line-height: 1.1; margin-bottom: 1rem; }
+        .hero-text h3 { font-size: 2rem; color: var(--text-dark); margin-bottom: 2rem; }
+        .hero-image { position: relative; text-align: center; }
+        .hero-image img {
+            width: 300px; height: 300px; border-radius: 50%; object-fit: cover;
+            border: 3px solid var(--accent-color); box-shadow: 0 0 30px rgba(87, 203, 255, 0.3);
+        }
+
+        /* --- "DIGITAL ANATOMY" ABOUT SECTION --- */
+        .about-anatomy-container {
+            position: relative;
+            width: 1000px;
+            height: 600px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .anatomy-image { width: 350px; height: 350px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-color); opacity: 0; }
+        .anatomy-point { position: absolute; opacity: 0; }
+        .hotspot { position: absolute; width: 20px; height: 20px; background-color: var(--accent-color); border-radius: 50%; border: 3px solid var(--bg-dark); transform: translate(-50%, -50%); animation: pulse 2s infinite ease-in-out; }
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(87, 203, 255, 0.7); }
+            70% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 15px rgba(87, 203, 255, 0); }
+            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(87, 203, 255, 0); }
+        }
+        .content-box { background: var(--bg-light-dark); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--accent-color); width: 280px; transform: scale(0); transform-origin: center; }
+        .content-box h3 { color: var(--text-lightest); margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .content-box .icon { color: var(--accent-color); margin-right: 0.75rem; }
+        .content-box p { font-size: 0.95rem; line-height: 1.6; color: var(--text-light); }
+        #point-mind { top: 30px; left: 0; }
+        #point-heart { bottom: 0; left: 120px; }
+        #point-hands { top: 120px; right: 0; text-align: right; }
+        #point-mind .content-box { transform-origin: top left; }
+        #point-heart .content-box { transform-origin: bottom left; }
+        #point-hands .content-box { transform-origin: top right; }
+        .svg-connectors { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .connector-path { stroke: var(--accent-color); stroke-width: 2; fill: none; stroke-dasharray: 500; stroke-dashoffset: 500; }
+
+        /* ====== START: "SYNAPTIC WEB" EDUCATION STYLES ====== */
+        #education {
+            height: 300vh; /* Provides scroll duration for the animation */
+            padding: 0;
+            overflow: hidden; /* Important for pinning */
+        }
+        .education-sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .synaptic-web-container {
+            position: relative;
+            width: 1000px;
+            height: 600px;
+        }
+        .education-svg-web {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: visible;
+        }
+        .synapse-path {
+            fill: none;
+            stroke-width: 2;
+            stroke: rgba(87, 203, 255, 0.15);
+        }
+        .synapse-path-draw {
+            fill: none;
+            stroke-width: 3;
+            stroke: var(--accent-color);
+            filter: url(#glow);
+        }
+        .synapse-node {
+            fill: var(--accent-color);
+            filter: url(#glow);
+            transform-origin: center center;
+        }
+        .education-title-wrapper {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        #education-title {
+             /* H2 styles are applied here, with slight modifications */
+            font-size: 2.8rem;
+            color: var(--text-lightest);
+            margin: 0;
+        }
+        .education-subtitle {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-color);
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+        .edu-card {
+            position: absolute;
+            width: 320px;
+            padding: 1.5rem;
+            background: rgba(3, 20, 43, 0.6);
+            border: 1px solid rgba(87, 203, 255, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            /* Initial state for GSAP */
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8) translateY(20px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .edu-card:hover {
+            transform: scale(1.05) !important;
+            box-shadow: 0 0 40px rgba(87, 203, 255, 0.2);
+        }
+        .edu-card .date {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-bottom: 0.75rem;
+        }
+        .edu-card h3 {
+            font-size: 1.25rem;
+            color: var(--text-lightest);
+            margin-bottom: 0.25rem;
+        }
+        .edu-card .inst {
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .edu-card .key-point {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        /* Positioning the cards */
+        #edu-card-1 { top: 0; right: 0; }
+        #edu-card-2 { bottom: 50px; left: -50px; }
+        #edu-card-3 { top: 120px; left: 100px; }
+        .mobile-edu-container {
+            display: none; /* Hidden on desktop */
+        }
+        
+        /* ====== START: IMPROVED EXPERIENCE SECTION STYLES ====== */
+        #experience {
+            padding: 0;
+            position: relative; /* For the animated-bg */
+            background-color: #010610;
+        }
+        .animated-bg {
+            position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+            background: radial-gradient(circle at 10% 20%, rgba(87, 203, 255, 0.15), transparent 30%),
+                        radial-gradient(circle at 90% 80%, rgba(87, 203, 255, 0.1), transparent 40%);
+            animation: pulse-bg 10s infinite alternate ease-in-out;
+            z-index: 0;
+        }
+        @keyframes pulse-bg {
+            from { transform: scale(1); opacity: 0.8; }
+            to { transform: scale(1.1); opacity: 1; }
+        }
+        .experience-wrapper {
+            height: 400vh;
+            position: relative;
+            z-index: 1;
+        }
+        .experience-sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .experience-sticky-container .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .experience-animation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 2rem;
+            width: 100%;
+        }
+        .experience-svg-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #ekg-path {
+            stroke: rgba(87, 203, 255, 0.3);
+            stroke-width: 3;
+            fill: none;
+        }
+        #ekg-path-draw {
+            stroke: var(--accent-color);
+            stroke-width: 3;
+            fill: none;
+            filter: drop-shadow(0 0 10px var(--accent-color));
+        }
+        #ekg-dot {
+            fill: var(--accent-color);
+            r: 8;
+            filter: drop-shadow(0 0 15px var(--accent-color));
+            animation: pulse-dot 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { r: 8; opacity: 1; }
+            50% { r: 10; opacity: 0.8; }
+        }
+        .experience-content { 
+            position: relative; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px; /* Give space for cards */
+        }
+        .exp-card {
+            position: absolute;
+            width: 100%;
+            max-width: 450px;
+            padding: 2rem;
+            background: rgba(3, 20, 43, 0.5);
+            border: 1px solid rgba(87, 203, 255, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            visibility: hidden;
+            opacity: 0;
+        }
+        .exp-card .date {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        .exp-card h3 {
+            font-size: 1.75rem;
+            color: var(--text-lightest);
+            margin-bottom: 1rem;
+        }
+        .exp-card p {
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+        .exp-card .icon {
+            position: absolute;
+            top: 2rem; right: 2rem;
+            font-size: 1.5rem;
+            color: rgba(87, 203, 255, 0.4);
+        }
+        
+        /* ====== START: MOLECULE ACHIEVEMENTS SECTION STYLES ====== */
+        #achievements {
+            background-color: #010610;
+            padding: 8rem 0;
+            overflow: hidden;
+        }
+        .achievements-title {
+            margin-bottom: 4rem;
+        }
+        .molecule-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+        }
+        .molecule-container {
+            position: relative;
+            width: 700px;
+            height: 500px;
+        }
+        .molecule-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+        .molecule-core {
+            fill: var(--accent-color);
+            transition: transform 0.3s ease;
+        }
+        .bond-path {
+            stroke: rgba(87, 203, 255, 0.3);
+            stroke-width: 2px;
+        }
+        .atom-group {
+            cursor: pointer;
+        }
+        .atom-node {
+            fill: var(--accent-color);
+        }
+        .atom-node-bg {
+            fill: rgba(87, 203, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: center;
+        }
+        .atom-icon {
+            font-size: 24px;
+            color: var(--text-lightest);
+            text-align: center;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .atom-icon-wrapper {
+            pointer-events: none; /* Allows clicks to pass through to the SVG group */
+        }
+        .atom-group:hover .atom-node-bg {
+            transform: scale(1.2);
+            fill: rgba(87, 203, 255, 0.2);
+        }
+        .atom-group:hover .atom-icon {
+            transform: scale(1.1);
+        }
+        .achievement-card {
+            position: absolute;
+            width: 280px;
+            padding: 1.5rem;
+            background: rgba(3, 20, 43, 0.7);
+            border: 1px solid rgba(87, 203, 255, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            pointer-events: none; /* Initially not interactive */
+            opacity: 0; /* Hidden for GSAP */
+        }
+        .achievement-card.is-active {
+            transform: scale(1.05);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 40px rgba(87, 203, 255, 0.3);
+        }
+        .achievement-card h3 {
+            color: var(--text-lightest); margin-bottom: 0.5rem; font-size: 1.2rem;
+        }
+        .achievement-card .source {
+            color: var(--text-dark); font-style: italic; margin-bottom: 1rem; font-size: 0.9rem;
+        }
+        .achievement-card p {
+            line-height: 1.6;
+        }
+        /* Positioning the cards */
+        #card-atom-1 { top: 0; left: -100px; }
+        #card-atom-2 { bottom: 0; right: -100px; }
+        
+        /* --- Content Section (Card Grid) --- */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .card { background: var(--bg-light-dark); border: 1px solid #042146; padding: 2rem; border-radius: 10px; transition: all 0.3s ease; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-10px); border-color: var(--accent-color); }
+        .card .icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 1rem; }
+        .card h3 { color: var(--text-lightest); margin-bottom: 0.5rem; }
+        .card .source { color: var(--text-dark); font-style: italic; margin-bottom: 1rem; }
+        .card a.read-more { margin-top: auto; color: var(--accent-color); text-decoration: none; font-weight: 600; }
+
+        /* --- Contact --- */
+        .contact-content { max-width: 600px; margin: auto; text-align: center; }
+
+        /* --- Footer --- */
+        footer { text-align: center; padding: 2rem 0; color: var(--text-dark); border-top: 1px solid var(--bg-light-dark); }
+        
+        .reveal { opacity: 0; transform: translateY(50px); }
+
+        /* --- Media Queries --- */
+        @media (max-width: 1024px) {
+            .about-anatomy-container { transform: scale(0.8); height: 480px; }
+            .synaptic-web-container { transform: scale(0.8); }
+        }
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-outline { display: none; }
+            h1 { font-size: 3rem; } h2 { font-size: 2.2rem; }
+            .navbar .nav-links { display: none; }
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-image { order: -1; margin-bottom: 2rem; }
+            .hero-image img { width: 250px; height: 250px; }
+            
+            #about { min-height: auto; }
+            .about-anatomy-container { display: block; height: auto; width: 100%; transform: none; text-align: center; }
+            .anatomy-image { margin-bottom: 3rem; }
+            .anatomy-point { position: relative; opacity: 1; top: auto; left: auto; right: auto; bottom: auto; margin-bottom: 2rem; display: flex; justify-content: center; text-align: left; }
+            .content-box { transform: scale(1); width: 90%; max-width: 400px; }
+            .hotspot, .svg-connectors { display: none; }
+
+            /* Mobile fallback for Education section */
+            #education { height: auto; padding: 4rem 0; overflow: visible; }
+            .education-sticky-container { position: static; height: auto; }
+            .synaptic-web-container { display: none; /* Hide complex SVG on mobile */ }
+            .education-title-wrapper { display: none; } /* Hide the centered title */
+            .mobile-edu-container { display: flex; flex-direction: column; gap: 2rem; }
+            .edu-card {
+                position: relative; top: auto; left: auto; right: auto; bottom: auto;
+                opacity: 1; visibility: visible; transform: none; width: 100%;
+            }
+
+            /* Mobile styles for Experience section */
+            #experience { padding: 4rem 0; }
+            .experience-wrapper { height: auto; }
+            .experience-sticky-container { position: static; height: auto; overflow: visible; }
+            .experience-animation-grid { grid-template-columns: 1fr; }
+            .experience-svg-wrapper { display: none; }
+            .experience-content { min-height: 0; }
+            .exp-card { position: relative; visibility: visible; opacity: 1; transform: none; margin-bottom: 2rem; }
+            
+            /* Mobile Fallback for Achievements Molecule */
+            .molecule-wrapper { min-height: auto; }
+            .molecule-container { display: flex; flex-direction: column; gap: 2rem; height: auto; width: 100%;}
+            .molecule-svg { display: none; }
+            .achievement-card {
+                position: relative;
+                top: auto; left: auto; right: auto; bottom: auto;
+                opacity: 1; /* Make visible for simple animation */
+                width: 100%;
+                pointer-events: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div class="spotlight"></div>
+
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="#home" class="logo">AS.</a>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#education">Education</a></li>
+                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#achievements">Achievements</a></li>
+                    <li><a href="#content">Content</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <div class="container hero-grid">
+                <div class="hero-text">
+                    <p class="intro">Anjali Sharma</p>
+                    <h1>Future Doctor & Medical Educator.</h1>
+                    <h3>I transform complex science into clear knowledge, bridging the gap between the clinic and the classroom.</h3>
+                    <a href="#contact" class="btn">Get In Touch</a>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto-format&fit=crop&w=1470&q=80" alt="Dr. Anjali Sharma">
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2 class="reveal">Digital Anatomy</h2>
+                <div class="about-anatomy-container">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto-format&fit=crop&w=1470&q=80" alt="Anjali Sharma Portrait" class="anatomy-image">
+                    <svg class="svg-connectors" viewBox="0 0 1000 600">
+                        <path id="path-mind" class="connector-path" d="M330,220 C200,220 200,100 280,100" />
+                        <path id="path-heart" class="connector-path" d="M420,440 C350,500 250,550 280,550" />
+                        <path id="path-hands" class="connector-path" d="M670,260 C800,260 800,190 720,190" />
+                    </svg>
+                    <div id="point-mind" class="anatomy-point">
+                        <div class="hotspot" style="top:220px; left:330px;"></div>
+                        <div class="content-box">
+                            <h3><i class="fas fa-brain icon"></i>The Mind</h3>
+                            <p>Driven by scientific curiosity and a passion for teaching. I excel at simplifying complex medical topics to make them accessible and engaging for all.</p>
+                        </div>
+                    </div>
+                    <div id="point-heart" class="anatomy-point">
+                        <div class="hotspot" style="top:440px; left:420px;"></div>
+                        <div class="content-box">
+                            <h3><i class="fas fa-heart-pulse icon"></i>The Heart</h3>
+                            <p>Committed to patient-centric care, rooted in empathy. My goal is not just to treat diseases, but to understand and care for the person behind them.</p>
+                        </div>
+                    </div>
+                    <div id="point-hands" class="anatomy-point">
+                        <div class="hotspot" style="top:260px; left:670px;"></div>
+                        <div class="content-box">
+                            <h3><i class="fas fa-hand-holding-medical icon"></i>The Hands</h3>
+                            <p>Applied knowledge through clinical rotations and community outreach, leading health camps and mentoring dozens of aspiring medical students.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <div class="education-sticky-container">
+                <div class="container">
+                    <div class="synaptic-web-container">
+                        <svg class="education-svg-web" viewBox="0 0 1000 600">
+                            <defs>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="7.5" result="coloredBlur"></feGaussianBlur>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"></feMergeNode>
+                                        <feMergeNode in="SourceGraphic"></feMergeNode>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <path id="path1-bg" class="synapse-path" d="M500,300 C600,300 700,100 800,100"></path>
+                            <path id="path1-draw" class="synapse-path-draw" d="M500,300 C600,300 700,100 800,100"></path>
+                            <path id="path2-bg" class="synapse-path" d="M500,300 C400,350 200,450 100,450"></path>
+                            <path id="path2-draw" class="synapse-path-draw" d="M500,300 C400,350 200,450 100,450"></path>
+                            <path id="path3-bg" class="synapse-path" d="M500,300 C400,250 250,250 250,220"></path>
+                            <path id="path3-draw" class="synapse-path-draw" d="M500,300 C400,250 250,250 250,220"></path>
+                            <circle id="node1" class="synapse-node" cx="800" cy="100" r="10"></circle>
+                            <circle id="node2" class="synapse-node" cx="100" cy="450" r="10"></circle>
+                            <circle id="node3" class="synapse-node" cx="250" cy="220" r="10"></circle>
+                        </svg>
+
+                        <div class="education-title-wrapper">
+                            <h2 id="education-title">Academic Dossier</h2>
+                            <p class="education-subtitle">[ SCROLL TO EXPLORE ]</p>
+                        </div>
+                        
+                        <div id="edu-card-1" class="edu-card">
+                            <p class="date">2021 - Present</p>
+                            <h3>MBBS (Current)</h3>
+                            <p class="inst">All India Institute of Medical Sciences</p>
+                            <p class="key-point">Mastering clinical diagnostics at India's top medical institution.</p>
+                        </div>
+                        <div id="edu-card-2" class="edu-card">
+                            <p class="date">2019 - 2021</p>
+                            <h3>Pre-Medical Sciences</h3>
+                            <p class="inst">Delhi Public College</p>
+                            <p class="key-point">Built a 98.5% scoring foundation in core sciences.</p>
+                        </div>
+                        <div id="edu-card-3" class="edu-card">
+                            <p class="date">2017 - 2019</p>
+                            <h3>High School</h3>
+                            <p class="inst">City International School</p>
+                            <p class="key-point">Ignited a passion for science and leadership.</p>
+                        </div>
+                    </div>
+                     <div class="mobile-edu-container">
+                        <h2>Academic Dossier</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="experience">
+            <div class="animated-bg"></div>
+            <div class="experience-wrapper">
+                <div class="experience-sticky-container">
+                    <div class="container">
+                        <h2 style="color: white; margin-bottom: 4rem; text-align: center;">Medical Journey</h2>
+                        <div class="experience-animation-grid">
+                            <div class="experience-svg-wrapper">
+                                <svg viewBox="0 0 500 300" preserveAspectRatio="xMidYMid meet" style="width: 100%; max-width: 500px;">
+                                    <path id="ekg-path" d="M -5 150 L 100 150 Q 110 150 115 120 L 130 190 L 145 100 L 160 150 Q 165 150 175 150 L 325 150 Q 335 150 340 180 L 350 130 L 360 150 Q 365 150 375 150 L 505 150"></path>
+                                    <path id="ekg-path-draw" d="M -5 150 L 100 150 Q 110 150 115 120 L 130 190 L 145 100 L 160 150 Q 165 150 175 150 L 325 150 Q 335 150 340 180 L 350 130 L 360 150 Q 365 150 375 150 L 505 150"></path>
+                                    <circle id="ekg-dot" cx="0" cy="0" r="8"></circle>
+                                </svg>
+                            </div>
+                            <div class="experience-content">
+                                <div class="exp-card" id="exp-card-1">
+                                    <i class="fas fa-chalkboard-teacher icon"></i>
+                                    <p class="date">2021 - 2022</p>
+                                    <h3>Peer Mentorship Program</h3>
+                                    <p>Mentored 50+ NEET aspirants, developing customized lesson plans and using active recall techniques to improve concept retention and exam scores.</p>
+                                </div>
+                                <div class="exp-card" id="exp-card-2">
+                                    <i class="fas fa-laptop-medical icon"></i>
+                                    <p class="date">2022 - PRESENT</p>
+                                    <h3>Medical Content Creator</h3>
+                                    <p>Develop and publish educational content, simplifying complex topics like pharmacology for aspiring medical students via articles and video tutorials.</p>
+                                </div>
+                                <div class="exp-card" id="exp-card-3">
+                                    <i class="fas fa-stethoscope icon"></i>
+                                    <p class="date">2023 - CLINICALS</p>
+                                    <h3>Clinical Rotations</h3>
+                                    <p>Completed rotations in Pediatrics & Cardiology, gaining hands-on experience in patient diagnosis, treatment, and compassionate care.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== START: INTERACTIVE MOLECULE ACHIEVEMENTS SECTION ====== -->
+        <section id="achievements">
+            <div class="container">
+                <h2 class="achievements-title">Core Competencies</h2>
+                <div class="molecule-wrapper">
+                    <div class="molecule-container">
+                        <!-- SVG for the molecule structure -->
+                        <svg class="molecule-svg" viewBox="0 0 600 500">
+                            <defs>
+                                <filter id="glow-strong">
+                                    <feGaussianBlur stdDeviation="10" result="coloredBlur"></feGaussianBlur>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"></feMergeNode>
+                                        <feMergeNode in="SourceGraphic"></feMergeNode>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            
+                            <!-- Bonds -->
+                            <line id="bond-1" class="bond-path" x1="300" y1="250" x2="150" y2="100" />
+                            <line id="bond-2" class="bond-path" x1="300" y1="250" x2="450" y2="400" />
+
+                            <!-- Atoms (Achievements) -->
+                            <g id="atom-1" class="atom-group">
+                                <circle class="atom-node-bg" cx="150" cy="100" r="40"></circle>
+                                <circle class="atom-node" cx="150" cy="100" r="15"></circle>
+                                <foreignObject x="110" y="80" width="80" height="40" class="atom-icon-wrapper">
+                                     <i class="fas fa-award atom-icon"></i>
+                                </foreignObject>
+                            </g>
+                            <g id="atom-2" class="atom-group">
+                                <circle class="atom-node-bg" cx="450" cy="400" r="40"></circle>
+                                <circle class="atom-node" cx="450" cy="400" r="15"></circle>
+                                <foreignObject x="410" y="380" width="80" height="40" class="atom-icon-wrapper">
+                                   <i class="fas fa-users atom-icon"></i>
+                                </foreignObject>
+                            </g>
+
+                            <!-- Core -->
+                            <circle class="molecule-core" cx="300" cy="250" r="25" filter="url(#glow-strong)"></circle>
+                        </svg>
+
+                        <!-- Achievement Cards (positioned over the SVG) -->
+                        <div id="card-atom-1" class="achievement-card">
+                            <h3>Dean's List Honoree</h3>
+                            <p class="source">AIIMS Academic Council</p>
+                            <p>Recognized for outstanding academic excellence for four consecutive semesters.</p>
+                        </div>
+                        <div id="card-atom-2" class="achievement-card">
+                            <h3>Rural Health Camp Lead</h3>
+                            <p class="source">Community Outreach Program</p>
+                            <p>Led a team to provide basic health screenings and education to over 200 individuals in underserved areas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ====== END: INTERACTIVE MOLECULE ACHIEVEMENTS SECTION ====== -->
+        
+        <section id="content">
+            <div class="container">
+                <h2 class="reveal">Content & Publications</h2>
+                <div class="card-grid">
+                    <div class="card reveal">
+                        <div class="icon"><i class="fas fa-book-open"></i></div>
+                        <h3>Decoding the Krebs Cycle</h3>
+                        <p class="source">Published on Med-Ed Blog</p>
+                        <p>An in-depth article simplifying the complexities of cellular respiration for medical students.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                    <div class="card reveal">
+                        <div class="icon"><i class="fab fa-youtube"></i></div>
+                        <h3>NEET Biology Masterclass</h3>
+                        <p class="source">YouTube Channel</p>
+                        <p>A video series covering high-yield topics for the NEET exam, focusing on visual learning and memory aids.</p>
+                        <a href="#" class="read-more">Watch Series &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container contact-content reveal">
+                <h2>What's Next?</h2>
+                <p>I am always excited to connect with peers, mentors, and potential students. Whether you have a question or a project proposal, my inbox is always open.</p>
+                <a href="mailto:your.email@example.com" class="btn">Say Hello</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Anjali Sharma. Crafted with precision and care.</p>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/MotionPathPlugin.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+        // --- Custom Cursor ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', e => {
+            gsap.to(cursorDot, { duration: 0.3, x: e.clientX, y: e.clientY });
+            gsap.to(cursorOutline, { duration: 0.7, x: e.clientX, y: e.clientY, ease: "power2.out" });
+        });
+        document.querySelectorAll('a, button, .btn').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorOutline.classList.add('cursor-grow'));
+            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('cursor-grow'));
+        });
+
+        // --- Spotlight Background ---
+        const spotlight = document.querySelector('.spotlight');
+        window.addEventListener('mousemove', e => {
+            gsap.to(spotlight, { '--x': `${e.clientX}px`, '--y': `${e.clientY}px`, duration: 0.5, ease: 'sine.out' });
+        });
+
+        // --- Navbar Animation ---
+        const navbar = document.querySelector('.navbar');
+        ScrollTrigger.create({
+            start: 'top -100',
+            end: 99999,
+            toggleClass: { className: 'scrolled', targets: navbar }
+        });
+
+        let mm = gsap.matchMedia();
+
+        mm.add("(min-width: 769px)", () => {
+            // --- "DIGITAL ANATOMY" SECTION ANIMATION ---
+            const anatomyTl = gsap.timeline({ scrollTrigger: { trigger: '#about', start: 'top 40%', toggleActions: 'play none none reverse' } });
+            anatomyTl.to('.anatomy-image', { opacity: 1, scale: 1, duration: 1.5, ease: 'power3.out' })
+                .to('.anatomy-point', { opacity: 1, stagger: 0.3 }, "-=1")
+                .to('.connector-path', { strokeDashoffset: 0, duration: 1.5, ease: 'power2.inOut', stagger: 0.3 }, "-=1")
+                .to('.content-box', { scale: 1, duration: 1, ease: 'elastic.out(1, 0.75)', stagger: 0.3 }, "-=1.2");
+
+            // --- "SYNAPTIC WEB" EDUCATION ANIMATION SCRIPT ---
+            gsap.utils.toArray('.synapse-path-draw').forEach(path => {
+                const length = path.getTotalLength();
+                gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+            });
+            gsap.set('.synapse-node', { scale: 0, transformOrigin: 'center' });
+            gsap.set('#education-title, .education-subtitle', { autoAlpha: 0 });
+            const eduTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '#education', start: 'top top', end: 'bottom bottom',
+                    scrub: 1.2, pin: '.education-sticky-container'
+                }
+            });
+            eduTl.to('#education-title', { autoAlpha: 1, duration: 1 })
+                 .to('.education-subtitle', { autoAlpha: 0.7, duration: 1 }, "-=0.5")
+                 .to('#path1-draw', { strokeDashoffset: 0, duration: 2, ease: 'power1.inOut' })
+                 .to('#node1', { scale: 1.5, duration: 1, ease: 'back.out(1.7)' }, "-=0.5")
+                 .to('#edu-card-1', { autoAlpha: 1, scale: 1, y: 0, visibility: 'visible', duration: 1, ease: 'power2.out' }, "-=0.8")
+                 .to('#path2-draw', { strokeDashoffset: 0, duration: 2, ease: 'power1.inOut' })
+                 .to('#node2', { scale: 1.5, duration: 1, ease: 'back.out(1.7)' }, "-=0.5")
+                 .to('#edu-card-2', { autoAlpha: 1, scale: 1, y: 0, visibility: 'visible', duration: 1, ease: 'power2.out' }, "-=0.8")
+                 .to('#path3-draw', { strokeDashoffset: 0, duration: 2, ease: 'power1.inOut' })
+                 .to('#node3', { scale: 1.5, duration: 1, ease: 'back.out(1.7)' }, "-=0.5")
+                 .to('#edu-card-3', { autoAlpha: 1, scale: 1, y: 0, visibility: 'visible', duration: 1, ease: 'power2.out' }, "-=0.8")
+                 .to(['.synaptic-web-container', '.education-title-wrapper'], { autoAlpha: 0, duration: 1.5 }, "+=1");
+
+            // --- EXPERIENCE SECTION SCRIPT ---
+            gsap.set('.exp-card', { autoAlpha: 0, y: 30, scale: 0.9 });
+            const path = document.querySelector('#ekg-path-draw');
+            const pathLength = path.getTotalLength();
+            gsap.set(path, { strokeDasharray: pathLength, strokeDashoffset: pathLength });
+            const expTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".experience-wrapper", start: "top top", end: "bottom bottom", scrub: 1.2,
+                }
+            });
+            expTl.to(path, { strokeDashoffset: 0, duration: 10, ease: "none" })
+                 .to("#ekg-dot", { motionPath: { path: "#ekg-path", align: "#ekg-path", alignOrigin: [0.5, 0.5] }, duration: 10, ease: "none" }, 0);
+            expTl.to("#exp-card-1", { autoAlpha: 1, y: 0, scale: 1, duration: 1.5, ease: 'power2.out' }, 0.5)
+                 .to("#exp-card-1", { autoAlpha: 0, y: -30, scale: 0.9, duration: 1.5, ease: 'power2.in' }, 3.0)
+                 .to("#exp-card-2", { autoAlpha: 1, y: 0, scale: 1, duration: 1.5, ease: 'power2.out' }, 3.5)
+                 .to("#exp-card-2", { autoAlpha: 0, y: -30, scale: 0.9, duration: 1.5, ease: 'power2.in' }, 6.0)
+                 .to("#exp-card-3", { autoAlpha: 1, y: 0, scale: 1, duration: 1.5, ease: 'power2.out' }, 6.5)
+                 .to("#exp-card-3", { autoAlpha: 0, y: -30, scale: 0.9, duration: 1.5, ease: 'power2.in' }, 9.5);
+            
+            // ====== START: MOLECULE ACHIEVEMENTS SCRIPT ======
+            const moleculeTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '#achievements',
+                    start: 'top 50%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            // Set initial states
+            gsap.set('.molecule-core', { scale: 0, transformOrigin: 'center' });
+            // Use strokeDasharray fallback for bond animation
+            gsap.utils.toArray('.bond-path').forEach(path => {
+                const length = path.getTotalLength();
+                gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+            });
+            gsap.set('.atom-group', { scale: 0, transformOrigin: 'center' });
+            gsap.set('.achievement-card', { autoAlpha: 0, scale: 0.8 });
+
+            // Animation sequence
+            moleculeTl.to('.molecule-core', { scale: 1, duration: 1, ease: 'back.out(1.7)' })
+                .to('.bond-path', { strokeDashoffset: 0, duration: 1, stagger: 0.3, ease: 'power2.inOut' }, "-=0.5")
+                .to('.atom-group', { scale: 1, duration: 0.8, stagger: 0.3, ease: 'back.out(1.7)' }, "-=0.7")
+                .to('.achievement-card', { autoAlpha: 1, scale: 1, duration: 0.8, stagger: 0.3, ease: 'power2.out' }, "-=0.5");
+
+            // Interactivity
+            const atomGroups = gsap.utils.toArray('.atom-group');
+            atomGroups.forEach((group, index) => {
+                const card = document.getElementById(`card-atom-${index + 1}`);
+                
+                group.addEventListener('mouseenter', () => {
+                    gsap.to(card, { duration: 0.3, y: -10 });
+                    card.classList.add('is-active');
+                    atomGroups.forEach(g => { if(g !== group) gsap.to(g, {duration: 0.3, autoAlpha: 0.5}); });
+                    gsap.to('.bond-path', {duration: 0.3, opacity: 0.3});
+                    gsap.to(`#bond-${index + 1}`, {duration: 0.3, opacity: 1, stroke: 'var(--accent-color)'});
+                });
+
+                group.addEventListener('mouseleave', () => {
+                    gsap.to(card, { duration: 0.3, y: 0 });
+                    card.classList.remove('is-active');
+                    atomGroups.forEach(g => gsap.to(g, {duration: 0.3, autoAlpha: 1}));
+                    gsap.to('.bond-path', {duration: 0.3, opacity: 1, stroke: 'rgba(87, 203, 255, 0.3)'});
+                });
+            });
+            // ====== END: MOLECULE ACHIEVEMENTS SCRIPT ======
+        });
+        
+        mm.add("(max-width: 768px)", () => {
+            gsap.from('.anatomy-image, .anatomy-point', { scrollTrigger: { trigger: '#about', start: 'top 70%', toggleActions: 'play none none reverse' }, opacity: 0, y: 50, stagger: 0.2, duration: 1 });
+
+            // --- MOBILE FALLBACK FOR EDUCATION ---
+            const mobileContainer = document.querySelector('.mobile-edu-container');
+            const eduCards = document.querySelectorAll('.edu-card');
+            eduCards.forEach(card => mobileContainer.appendChild(card));
+            gsap.from('.mobile-edu-container > *', {
+                scrollTrigger: { trigger: '.mobile-edu-container', start: 'top 80%', toggleActions: 'play none none reverse' },
+                opacity: 0, y: 40, stagger: 0.2, duration: 0.8, ease: 'power2.out'
+            });
+
+            gsap.utils.toArray('.exp-card').forEach(card => {
+                gsap.from(card, {
+                    scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none reverse' },
+                    opacity: 0, y: 30, duration: 0.8
+                });
+            });
+
+            // --- Mobile Achievements Fallback ---
+            gsap.utils.toArray('.achievement-card').forEach(card => {
+                gsap.from(card, {
+                    scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none reverse' },
+                    opacity: 0, y: 40, duration: 0.8
+                });
+            });
+        });
+
+        // --- General Reveal Animations (for other sections) ---
+        gsap.utils.toArray('.reveal').forEach(elem => {
+            gsap.fromTo(elem, { opacity: 0, y: 50 }, {
+                opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+                scrollTrigger: { trigger: elem, start: 'top 85%', toggleActions: 'play none none reverse' }
+            });
+        });
+        
+        // --- Active Nav Link on Scroll ---
+        const sections = gsap.utils.toArray('main > section');
+        const navLinks = gsap.utils.toArray('.nav-links a');
+        sections.forEach((section) => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top center",
+                end: "bottom center",
+                onToggle: self => {
+                    if (self.isActive) {
+                        const sectionId = section.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
